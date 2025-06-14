@@ -29,9 +29,27 @@ class Main implements EventListenerObject{
         } else if(elementoClick.id.startsWith("cb_")){                
                          // <input id='cb_1' type="checkbox"> // true //cb_1
             console.log("pase por el check!!", elementoClick.checked, elementoClick.id)
-            console.log(elementoClick.id.substring(3, elementoClick.id.length));
-            console.log(elementoClick)
-            console.log(elementoClick.getAttribute("miIdBd"));
+
+            let xmlReq = new XMLHttpRequest();
+
+            xmlReq.onreadystatechange = function() {
+                if (xmlReq.readyState === 4) { // DONE
+                    if (xmlReq.status === 200) {
+                        console.log("Dispositivo actualizado:", xmlReq.responseText);
+                    } else {
+                        console.error("Error al actualizar:", xmlReq.status, xmlReq.responseText);
+                    }
+                }
+            };
+
+            xmlReq.open("GET", "http://localhost:8000/devices_update/"+elementoClick.id+"/"+elementoClick.checked, true);
+            xmlReq.send();
+
+
+            //console.log(elementoClick.id.substring(3, elementoClick.id.length));
+            //console.log(elementoClick)
+            //console.log(elementoClick.getAttribute("miIdBd"));
+            //console.log(elementoClick.getAttribute("miIdBd"));
             // TODO para la semana que viene
             // llegar al backend y hacer un update a la tabla devices Con el id y el state;
         }

@@ -36,6 +36,23 @@ app.get('/devices/:id', function(req, res, next) {
         }
     })
 });
+
+
+app.get('/devices_update/:id/:state', function(req, res, next) {
+    const id = req.params.id.split("_")[1];
+    const state = req.params.state;
+    //utils.query("SELECT * FROM Devices where id = "+req.params.id, function(error,respuesta,campos){
+        utils.query("UPDATE Devices SET state = "+ state + " WHERE id = " + id, function(error,respuesta,campos){
+        if(error==null){
+            console.log(respuesta);
+            res.status(200).send(respuesta);    
+        }else{
+            console.log(error);
+            res.status(409).send({error:"Fallo la consulta"});
+        }
+    })
+});
+
 app.get('/algo',function(req,res,next){
 
     console.log("llego una peticion a algo")
