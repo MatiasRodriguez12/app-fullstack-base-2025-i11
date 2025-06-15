@@ -69,44 +69,57 @@ class Main implements EventListenerObject{
                     let div = document.getElementById("lista");
                     div.innerHTML = "";
                     let listado: string = ""
-                    
+                    listado += `<div class="row">`
                     for (let o of devices) {
+                                                
+                        listado += `<div class="col s4" >`
+                            listado += `<div class="card" style="border-radius: 15px; padding: 10px;background-color:#124580;">`
+                                listado += `<div class="row valign-wrapper" style="margin: 0;">`
+                    
+                                    // Para imagen
+                                    listado += `<div class="col s2">`
+                                        if (o.type == 0) {
+                                            listado += `<img src="./static/images/lightbulb.png" alt="" class="circle responsive-img">`
+                                        } else {
+                                            listado += `<img src="./static/images/window.png" alt="" class="circle responsive-img">`
+                                        }
+                                    listado += `</div>`
+                    
+                                    // Para texto
+                                    listado += `<div class="col s5">`
+                                        listado += `<span class="title" style="font-weight: bold;color: white;">${o.name}</span><br>`
+                                        listado += `<p style="margin: 0;color: white;">${o.description}</p>`
+                                    listado += `</div>`
+                    
+                                    // Para controlador (switch, deslizable)
+                                    listado += `<div class="col s5 right-align">`
+                                        if (o.state) {
+                                            listado += `<div class="switch">
+                                                            <label>
+                                                                Off
+                                                                <input id='cb_${o.id}' miIdBd='${o.id}' checked type="checkbox">
+                                                                <span class="lever"></span>
+                                                                On
+                                                            </label>
+                                                        </div>`
+                                        } else {
+                                            listado += `<div class="switch">
+                                                            <label>
+                                                                Off
+                                                                <input id='cb_${o.id}' type="checkbox">
+                                                                <span class="lever"></span>
+                                                                On
+                                                            </label>
+                                                        </div>`
+                                        }
+                                    listado += `</div>`
+                                listado += `</div>`
+                            listado += `</div>`
+                    
+                        listado += `</div>`  // cierra row
                         
-                        listado += "<li class='collection-item avatar'>"
-                        if (o.type == 1) {
-                            
-                            listado += `<img src="./static/images/lightbulb.png" alt="" class="circle">`
-                        } else {
-                            listado += `<img src="./static/images/window.png" alt="" class="circle">`
-                        }
-                        listado += `<span class="title">${o.name}</span>`
-                        listado += ` <p>${o.description}</p>`
-                        if (o.state) {
-                            listado += `<a href="#!" class="secondary-content">
-                            <div class="switch">
-                                <label>
-                                Off
-                                <input id='cb_${o.id}' miIdBd='${o.id}' checked type="checkbox">
-                                <span class="lever"></span>
-                                On
-                                </label>
-                            </div>
-                            </a>`
-                        } else {
-                            listado += `<a href="#!" class="secondary-content">
-                            <div class="switch">
-                                <label>
-                                Off
-                                <input id='cb_${o.id}' type="checkbox">
-                                <span class="lever"></span>
-                                On
-                                </label>
-                            </div>
-                            </a>`
-                        }
-                        listado += '</li>';
-             
                     }
+                    listado += `</div>`
                     div.innerHTML = listado;
 
                     for (let o of devices) {
@@ -130,9 +143,9 @@ class Main implements EventListenerObject{
 window.addEventListener("load", () => {
    let main: Main = new Main();
      
-    let btn = document.getElementById("btn_1");
+    //let btn = document.getElementById("btn_1");
    // let o: EventListenerObject = main;
-    btn.addEventListener("click", main);
+    //btn.addEventListener("click", main);
     let btnM = document.getElementById("btnMostrar");
 
    // btnM.addEventListener("mouseover", main);
