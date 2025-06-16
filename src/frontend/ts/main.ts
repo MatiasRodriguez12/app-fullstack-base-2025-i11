@@ -72,7 +72,7 @@ class Main implements EventListenerObject{
                     listado += `<div class="row">`
                     for (let o of devices) {
                                                 
-                        listado += `<div class="col s4" >`
+                        listado += `<div class="col s12 m6 l4" >`
                             listado += `<div class="card" style="border-radius: 15px; padding: 10px;background-color:#124580;">`
                                 listado += `<div class="row valign-wrapper" style="margin: 0;">`
                     
@@ -114,12 +114,17 @@ class Main implements EventListenerObject{
                                         }
                                     listado += `</div>`
                                 listado += `</div>`
+                                listado += `<div class="center-align" style="margin-top: 10px;">`;
+                                        listado += `<a class="waves-effect waves-teal btn-flat" id="Button_edit_${o.id}" style="font-weight: bold;color: white;" >Editar</a>`;
+                                        listado += `<a class="waves-effect waves-teal btn-flat" id="Button_delete_${o.id}" style="font-weight: bold;color: white;">Eliminar</a>`
+                                listado += `</div>`
                             listado += `</div>`
                     
-                        listado += `</div>`  // cierra row
+                        listado += `</div>`  
                         
                     }
                     listado += `</div>`
+                    
                     div.innerHTML = listado;
 
                     for (let o of devices) {
