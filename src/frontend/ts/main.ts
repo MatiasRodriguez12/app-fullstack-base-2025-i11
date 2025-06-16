@@ -72,12 +72,12 @@ class Main implements EventListenerObject{
                     listado += `<div class="row">`
                     for (let o of devices) {
                                                 
-                        listado += `<div class="col s12 m6 l4" >`
+                        listado += `<div class="col s12 m6 l3" >`
                             listado += `<div class="card" style="border-radius: 15px; padding: 10px;background-color:#124580;">`
                                 listado += `<div class="row valign-wrapper" style="margin: 0;">`
                     
                                     // Para imagen
-                                    listado += `<div class="col s2">`
+                                    listado += `<div class="col s4">`
                                         if (o.type == 0) {
                                             listado += `<img src="./static/images/lightbulb.png" alt="" class="circle responsive-img">`
                                         } else {
@@ -86,36 +86,37 @@ class Main implements EventListenerObject{
                                     listado += `</div>`
                     
                                     // Para texto
-                                    listado += `<div class="col s5">`
+                                    listado += `<div class="col s8">`
                                         listado += `<span class="title" style="font-weight: bold;color: white;">${o.name}</span><br>`
                                         listado += `<p style="margin: 0;color: white;">${o.description}</p>`
                                     listado += `</div>`
-                    
-                                    // Para controlador (switch, deslizable)
-                                    listado += `<div class="col s5 right-align">`
-                                        if (o.state) {
-                                            listado += `<div class="switch">
-                                                            <label>
-                                                                Off
-                                                                <input id='cb_${o.id}' miIdBd='${o.id}' checked type="checkbox">
-                                                                <span class="lever"></span>
-                                                                On
-                                                            </label>
-                                                        </div>`
-                                        } else {
-                                            listado += `<div class="switch">
-                                                            <label>
-                                                                Off
-                                                                <input id='cb_${o.id}' type="checkbox">
-                                                                <span class="lever"></span>
-                                                                On
-                                                            </label>
-                                                        </div>`
-                                        }
-                                    listado += `</div>`
                                 listado += `</div>`
+                                
+                                // Para controlador (switch, deslizable)
+                                listado += `<div class="center-align"  style="margin-top: 10px;">`
+                                    if (o.state) {
+                                        listado += `<div class="switch">
+                                                        <label>
+                                                            Off
+                                                            <input id='cb_${o.id}' miIdBd='${o.id}' checked type="checkbox">
+                                                            <span class="lever"></span>
+                                                            On
+                                                        </label>
+                                                    </div>`
+                                    } else {
+                                        listado += `<div class="switch">
+                                                        <label>
+                                                            Off
+                                                            <input id='cb_${o.id}' type="checkbox">
+                                                            <span class="lever"></span>
+                                                            On
+                                                        </label>
+                                                    </div>`
+                                    }
+                                listado += `</div>`
+                                
                                 listado += `<div class="center-align" style="margin-top: 10px;">`;
-                                        listado += `<a class="waves-effect waves-teal btn-flat" id="Button_edit_${o.id}" style="font-weight: bold;color: white;" >Editar</a>`;
+                                        listado += `<a class="waves-effect waves-teal btn-flat modal-trigger" id="Button_edit_${o.id}" style="font-weight: bold;color: white;" href="#modal1">Editar</a>`;
                                         listado += `<a class="waves-effect waves-teal btn-flat" id="Button_delete_${o.id}" style="font-weight: bold;color: white;">Eliminar</a>`
                                 listado += `</div>`
                             listado += `</div>`
@@ -126,11 +127,25 @@ class Main implements EventListenerObject{
                     listado += `</div>`
                     
                     div.innerHTML = listado;
-
+                    const modales = document.querySelectorAll<HTMLElement>(".modal");
+                    M.Modal.init(modales);
                     for (let o of devices) {
                         let checkbox = document.getElementById("cb_" + o.id);
                         checkbox.addEventListener("click", this);
                     }
+                    for (let o of devices) {
+                        const botonEditar = document.getElementById("Button_edit_" + o.id);
+                        
+                        botonEditar?.addEventListener("click", () => {
+                          const titulo = document.getElementById("modal-title");
+                          const cuerpo = document.getElementById("modal-body");
+                      
+                          if (titulo && cuerpo) {
+                            titulo.textContent = `Editar: ${o.name}`;
+                            cuerpo.textContent = `Descripción: ${o.description}`;
+                          }
+                        });
+                      }
                 } else {
                     
                     alert("fallo la consulta");
