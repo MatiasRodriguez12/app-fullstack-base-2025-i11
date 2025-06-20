@@ -23,78 +23,21 @@
                 </div>
             </nav>	
             <!-- Page Body -->
-            <!--div class="container">
-                <div class="row" style="background-color: gray;">
-                    
-                    <div class="col s12 m8 l6 xl6" style="background-color: yellow;">
-                        <h2>Datos de la persona</h2>
-                        <div class="input-field">
-                            <label for="iNombre">Nombre</label>
-                            <input type="text" placeholder="Juan" id="iNombre">
-                        </div>
-                        <div class="input-field">
-                            <label for="iApellido">Apellido</label>
-                            <input type="text" id="iApellido">
-                        </div>
-                        
-                        <button class="btn-large red">
-                            <i class="material-icons right">save</i>
-                            Guardar 2 
-                        </button>
-                    </div>
-                      <div class="col s12 m4 l6 xl6" style="background-color: rgb(111, 255, 0);">
-                        <h2>Usuario</h2>
-                           <input value="Usuario">
-                        <input value="Password">
-                        <div id="botones">
-                            <button id="btnLogin" class="btn-large  miColor">
-                                <i class="material-icons left">person</i>
-                            login 
-                            </button>
-                        </div>
-                    </div>
-                      
-                </div-->
+ 
+            <h3>Smart Home Web Client!</h3>
 
-                <h3>Smart Home Web Client!</h3>
-
-                <!--div id="" class="row">
-                     <ul id="lista" class="collection">
-
-                </ul>
-                    <h1 id="titulo1">
-                        tiltulo
-                    </h1>
-                    <h3>
-                        tiltulo
-                    </h3>
-                    <h6>
-                        sub!
-                    </h6>
-                    <p>
-                        Lorem ipsum dolor, sit amet consectetur adipisicing elit. Esse quas natus optio dolorem vel odio ipsam, delectus expedita ipsum aspernatur perspiciatis ad. Corrupti nemo provident deleniti aperiam? Perferendis, eos dicta!
-                    </p-->
-                    <!--input type="button" value="Boton 1"/>
-                    <input type="button" value="Boton 2"/-->
-                    <!--label  for="texto1">
-                        Ingrese su nombre
-                    </label>
-                    <input unInvento="nada" type="text" id="texto1"  />
-                </div-->
-                <ul id="lista" class="collection"></ul>
-                <div class="row">
-                    <!--div class="input-field col s12 m12 l12 xl12">
-                        <textarea id="textarea_1" class="materialize-textarea" style="height: 150px;" readonly>
-
-                 
-                        </textarea>
-                    </div-->
-                    <div class="col s4 m4 l2 xl2">
-                        <!--button id="btn_1" class="btn waves-effect waves-light button-view">Click aca</button-->
-                        <button id="btnMostrar" class="btn waves-effect waves-light button-view">Mostrar elementos</button>
-                    </div>
+            <ul id="lista" class="collection"></ul>
+            <div class="row">
+                <div class="col s4 m4 l2 xl2">
+                    <button id="btnMostrar" class="btn waves-effect waves-light button-view">Mostrar dispositivo</button>
                 </div>
-            </div>	
+                <div class="col s4 m4 l2 xl2">
+                    <a id="btnAgregar" class="btn waves-effect waves-light button-view modal-trigger" href="#modal_agregar">
+                      Agregar dispositivo
+                    </a>
+                  </div>
+            </div>
+            	
         </main>
 		<!-- Page Footer -->
         <footer class="page-footer" style="background-color:#124580">
@@ -133,6 +76,43 @@
 
                 <div class="input-field col s6" style="margin-top: 50px;">
                     <input placeholder="Placeholder" id="descripcion_dispositivo" type="text" class="validate" style="margin-top: 20px;">
+                    <label for="descripcion_dispositivo" style="color: #124580; font-weight: bold; font-size: 30px;">Descripción</label>
+                </div>
+
+                <div class="divider"></div>
+
+                <div class="input-field col s12" style="margin-top: 50px;">
+                    <select id="tipo_dispositivo">
+                      <option value="" disabled selected>Tipo de controlador</option>
+                      <option value="0">On/Off</option>
+                      <option value="1">Silder</option>
+                    </select>
+                    <label style="color: #124580; font-weight: bold; font-size: 30px;">Tipo</label>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+              <a href="#!" class="modal-close waves-effect waves-green btn-flat">Cerrar</a>
+              <a class="waves-effect waves-green btn-flat">Actualizar</a>
+            </div>
+          </div>
+
+          <!-- Modal para formularios de agregar dispositivo -->
+        <div id="modal_agregar" class="modal">
+            <div class="modal-content">
+              <h4 id="modal-title">Agregar dispositivo</h4>
+                
+                <div class="divider"></div>
+
+                <div class="input-field col s6" style="margin-top: 50px;">
+                    <input placeholder="Nombre dispositivo" id="nombre_dispositivo" type="text" class="validate" style="margin-top: 20px;">
+                    <label for="nombre_dispositivo" style="color: #124580; font-weight: bold; font-size: 30px;">Nombre dispositivo</label>
+                </div>
+
+                <div class="divider"></div>
+
+                <div class="input-field col s6" style="margin-top: 50px;">
+                    <input placeholder="Descripcion" id="descripcion_dispositivo" type="text" class="validate" style="margin-top: 20px;">
                     <label for="descripcion_dispositivo" style="color: #124580; font-weight: bold; font-size: 30px;">Descripción</label>
                 </div>
 

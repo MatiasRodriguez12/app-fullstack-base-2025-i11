@@ -195,12 +195,14 @@ class Main implements EventListenerObject{
 window.addEventListener("load", () => {
    let main: Main = new Main();
      
-    //let btn = document.getElementById("btn_1");
-   // let o: EventListenerObject = main;
-    //btn.addEventListener("click", main);
+    const modales = document.querySelectorAll<HTMLElement>(".modal");
+    M.Modal.init(modales);
+
+    const elems = document.querySelectorAll("select");
+    M.FormSelect.init(elems);
+
     let btnM = document.getElementById("btnMostrar");
 
-   // btnM.addEventListener("mouseover", main);
     btnM.addEventListener("click", main);
 
 
