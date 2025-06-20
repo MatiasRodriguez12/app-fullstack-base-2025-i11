@@ -120,12 +120,37 @@
         <!-- Modal para formularios de edición -->
         <div id="modal1" class="modal">
             <div class="modal-content">
-              <h4 id="modal-title">Modal Header</h4>
-              <p id="modal-body">Texto del modal</p>
+              <h4 id="modal-title">Datos del dispositivo</h4>
+                
+                <div class="divider"></div>
+
+                <div class="input-field col s6" style="margin-top: 50px;">
+                    <input placeholder="Placeholder" id="nombre_dispositivo" type="text" class="validate" style="margin-top: 20px;">
+                    <label for="nombre_dispositivo" style="color: #124580; font-weight: bold; font-size: 30px;">Nombre dispositivo</label>
+                </div>
+
+                <div class="divider"></div>
+
+                <div class="input-field col s6" style="margin-top: 50px;">
+                    <input placeholder="Placeholder" id="descripcion_dispositivo" type="text" class="validate" style="margin-top: 20px;">
+                    <label for="descripcion_dispositivo" style="color: #124580; font-weight: bold; font-size: 30px;">Descripción</label>
+                </div>
+
+                <div class="divider"></div>
+
+                <div class="input-field col s12" style="margin-top: 50px;">
+                    <select id="tipo_dispositivo">
+                      <option value="" disabled selected>Tipo de controlador</option>
+                      <option value="0">On/Off</option>
+                      <option value="1">Silder</option>
+                    </select>
+                    <label style="color: #124580; font-weight: bold; font-size: 30px;">Tipo</label>
+                </div>
+
             </div>
             <div class="modal-footer">
               <a href="#!" class="modal-close waves-effect waves-green btn-flat">Cerrar</a>
-              <a class="waves-effect waves-light btn">button</a>
+              <a class="waves-effect waves-green btn-flat">Actualizar</a>
             </div>
           </div>
 	

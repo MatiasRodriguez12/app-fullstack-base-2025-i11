@@ -129,21 +129,29 @@ class Main implements EventListenerObject{
                     div.innerHTML = listado;
                     const modales = document.querySelectorAll<HTMLElement>(".modal");
                     M.Modal.init(modales);
+                    
+                    const elems = document.querySelectorAll("select");
+                    M.FormSelect.init(elems);
+
                     for (let o of devices) {
                         let checkbox = document.getElementById("cb_" + o.id);
                         checkbox.addEventListener("click", this);
                     }
                     for (let o of devices) {
-                        const botonEditar = document.getElementById("Button_edit_" + o.id);
+                        const boton_editar = document.getElementById("Button_edit_" + o.id);
+                        const input_nombre = document.getElementById("nombre_dispositivo") as HTMLInputElement;
+                        const input_descripcion = document.getElementById("descripcion_dispositivo") as HTMLInputElement;
+                        const input_tipo = document.getElementById("tipo_dispositivo") as HTMLInputElement;
                         
-                        botonEditar?.addEventListener("click", () => {
-                          const titulo = document.getElementById("modal-title");
-                          const cuerpo = document.getElementById("modal-body");
-                      
-                          if (titulo && cuerpo) {
-                            titulo.textContent = `Editar: ${o.name}`;
-                            cuerpo.textContent = `Descripción: ${o.description}`;
-                          }
+                        boton_editar?.addEventListener("click", () => {
+    
+                            input_nombre.placeholder = o.name;
+                            input_nombre.value = ""; 
+                            input_descripcion.placeholder = o.description;
+                            input_descripcion.value="";
+                            input_tipo.value=o.type.toString();
+                            M.FormSelect.init(input_tipo);
+                          
                         });
                       }
                 } else {
