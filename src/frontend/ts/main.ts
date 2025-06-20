@@ -44,14 +44,25 @@ class Main implements EventListenerObject{
 
             xmlReq.open("GET", "http://localhost:8000/devices_update/"+elementoClick.id+"/"+elementoClick.checked, true);
             xmlReq.send();
+        }
+        else if(elementoClick.id.startsWith("cbs_")){                
+  
+            console.log("pase por el check!!", elementoClick.value, elementoClick.id)
 
+            let xmlReq = new XMLHttpRequest();
 
-            //console.log(elementoClick.id.substring(3, elementoClick.id.length));
-            //console.log(elementoClick)
-            //console.log(elementoClick.getAttribute("miIdBd"));
-            //console.log(elementoClick.getAttribute("miIdBd"));
-            // TODO para la semana que viene
-            // llegar al backend y hacer un update a la tabla devices Con el id y el state;
+            xmlReq.onreadystatechange = function() {
+                if (xmlReq.readyState === 4) { // DONE
+                    if (xmlReq.status === 200) {
+                        console.log("Dispositivo actualizado:", xmlReq.responseText);
+                    } else {
+                        console.error("Error al actualizar:", xmlReq.status, xmlReq.responseText);
+                    }
+                }
+            };
+
+            xmlReq.open("GET", "http://localhost:8000/devices_update/"+elementoClick.id+"/"+elementoClick.value, true);
+            xmlReq.send();
         }
 
     }
@@ -93,8 +104,8 @@ class Main implements EventListenerObject{
                                 listado += `</div>`
                                 
                                 // Para controlador (switch, deslizable)
-                                listado += `<div class="center-align"  style="margin-top: 10px;">`
-                                    if (o.state) {
+                                listado += `<div class="center-align"  style="margin-top: 10px; min-height: 35px;">`
+                                    if (!o.type) {
                                         listado += `<div class="switch">
                                                         <label>
                                                             Off
@@ -104,19 +115,18 @@ class Main implements EventListenerObject{
                                                         </label>
                                                     </div>`
                                     } else {
-                                        listado += `<div class="switch">
-                                                        <label>
-                                                            Off
-                                                            <input id='cb_${o.id}' type="checkbox">
-                                                            <span class="lever"></span>
-                                                            On
-                                                        </label>
-                                                    </div>`
+                                        listado += `<div class="row" style="margin-top: 0; margin-bottom: 0;">
+                                                      <div class="col s6 offset-s3">
+                                                        <div class="range-field" style="margin: 0;" >
+                                                          <input type="range" id='cbs_${o.id}' min="0" max="100" />
+                                                        </div>
+                                                      </div>
+                                                    </div>`;
                                     }
                                 listado += `</div>`
                                 
                                 listado += `<div class="center-align" style="margin-top: 10px;">`;
-                                        listado += `<a class="waves-effect waves-teal btn-flat modal-trigger" id="Button_edit_${o.id}" style="font-weight: bold;color: white;" href="#modal1">Editar</a>`;
+                                        listado += `<a class="waves-effect waves-teal btn-flat modal-trigger" id="Button_edit_${o.id}" style="font-weight: bold;color: white;" href="#modal_edicion">Editar</a>`;
                                         listado += `<a class="waves-effect waves-teal btn-flat" id="Button_delete_${o.id}" style="font-weight: bold;color: white;">Eliminar</a>`
                                 listado += `</div>`
                             listado += `</div>`
@@ -134,8 +144,22 @@ class Main implements EventListenerObject{
                     M.FormSelect.init(elems);
 
                     for (let o of devices) {
-                        let checkbox = document.getElementById("cb_" + o.id);
-                        checkbox.addEventListener("click", this);
+                        if(o.type==0){
+                            let checkbox = document.getElementById("cb_" + o.id) as HTMLInputElement;
+                            if(checkbox){
+                                checkbox.checked = !!o.state;
+                                checkbox.addEventListener("click", this);
+                            }                            
+                        }
+                        else{
+                            let slider = document.getElementById("cbs_" + o.id) as HTMLInputElement;
+                            if(slider){
+                                slider.addEventListener("input", this);
+                                slider.value=o.state.toString();
+                            }                            
+                        }
+
+                        
                     }
                     for (let o of devices) {
                         const boton_editar = document.getElementById("Button_edit_" + o.id);
