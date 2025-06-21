@@ -50,7 +50,12 @@ INSERT INTO `Devices` (`id`, `name`, `description`, `state`, `type`) VALUES
 (3, 'Velador', 'Velador living', 1, 0),
 (4, 'Persiana 1', 'Persiana living', 1, 1),
 (5, 'Persiana 2', 'Persiana de la cocina', 1, 1),
-(6, 'Persiana 3', 'Persiana balcon', 0, 1);
+(6, 'Persiana 3', 'Persiana balcon', 0, 1),
+(7, 'Televisor 1', 'Dormitorio', 0, 2),
+(8, 'Música 1', 'Sala de estar', 0, 3),
+(9, 'Ventilador 1', 'Sala de estar', 0, 4),
+(10, 'AC 1', 'Dormitorio', 0, 5),
+(11, 'Caloventor 1', 'Baño', 0, 6);
 
 --
 -- Indexes for dumped tables
