@@ -67,9 +67,9 @@ class Main implements EventListenerObject{
         else if(elementoClick.id=="btnCrearDispositivo" && object.type=="click"){
             console.log("pase por el check crear!!", elementoClick.value, elementoClick.id)
 
-            const nombre_dispositivo_crear = document.getElementById("nombre_dispositivo_crear");
-            const descripcion_dispositivo_crear = document.getElementById("descripcion_dispositivo_crear");
-            const tipo_dispositivo_crear = document.getElementById("tipo_dispositivo_crear");
+            const nombre_dispositivo_crear = document.getElementById("nombre_dispositivo_crear") as HTMLInputElement;
+            const descripcion_dispositivo_crear = document.getElementById("descripcion_dispositivo_crear") as HTMLInputElement;
+            const tipo_dispositivo_crear = document.getElementById("tipo_dispositivo_crear") as HTMLInputElement;
 
             if (!nombre_dispositivo_crear.value.trim() || !descripcion_dispositivo_crear.value.trim() || !tipo_dispositivo_crear.value) {
                 alert("Por favor, completa todos los campos.");
@@ -106,10 +106,56 @@ class Main implements EventListenerObject{
                     }
                 };
 
-            xmlReq.open("GET", "http://localhost:8000/devices_create/"+nombre_dispositivo_crear.value+"/"+descripcion_dispositivo_crear.value+"/"+tipo_dispositivo_crear.value, true);
-            xmlReq.send();
+                xmlReq.open("GET", "http://localhost:8000/devices_create/"+nombre_dispositivo_crear.value+"/"+descripcion_dispositivo_crear.value+"/"+tipo_dispositivo_crear.value, true);
+                xmlReq.send();
 
-             
+            });
+        }
+        else if(elementoClick.id=="btnActualizarDispositivo" && object.type=="click"){
+            const input_nombre = document.getElementById("nombre_dispositivo") as HTMLInputElement;
+            const input_descripcion = document.getElementById("descripcion_dispositivo") as HTMLInputElement;
+            const input_tipo = document.getElementById("tipo_dispositivo") as HTMLInputElement;
+
+            let xmlReq = new XMLHttpRequest();
+
+            if (!input_nombre.value.trim() || !input_descripcion.value.trim() || !input_tipo.value) {
+                alert("Por favor, completa todos los campos.");
+                return;
+            }
+        
+            if (input_tipo.value !== "0" && input_tipo.value !== "1") {
+                alert("Tipo inválido. Debe ser 0 o 1.");
+                return;
+            }
+            this.consultarDisponibilidadNombre(input_nombre.value).then(disponible => {
+                
+                if (!disponible) {
+                    alert("El nombre ya está en uso.");
+                    return;
+                }
+                
+                xmlReq.onreadystatechange = () => {
+                    if (xmlReq.readyState === 4) {
+                        if (xmlReq.status === 200) {
+                            console.log("Dispositivo creado:", xmlReq.responseText);
+                            const modalElem = document.getElementById("modal_edicion");
+                            const modalInstance = M.Modal.getInstance(modalElem);
+                            if (modalInstance) {
+                                modalInstance.close();
+                            }
+        
+                            this.consultarAlServidor();
+                        } else {
+                            console.error("Error al crear dispositivo:", xmlReq.status, xmlReq.responseText);
+                        }
+                    }
+                };
+
+                xmlReq.open("GET", "http://localhost:8000/devices_update/"+input_nombre.placeholder+"/"+input_nombre.value+"/"+input_descripcion.value+"/"+input_tipo.value, true);
+                xmlReq.send();
+
+            });
+
         }
 
     }
@@ -304,9 +350,11 @@ window.addEventListener("load", () => {
 
     let btnM = document.getElementById("btnMostrar");
     let btn_create = document.getElementById("btnCrearDispositivo");
+    let btn_delete = document.getElementById("btnActualizarDispositivo");
 
     btnM.addEventListener("click", main);
     btn_create.addEventListener("click", main);
+    btn_delete.addEventListener("click", main);
 
 
      let xmlReq = new XMLHttpRequest();
