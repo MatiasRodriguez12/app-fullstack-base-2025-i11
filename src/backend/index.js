@@ -75,6 +75,22 @@ app.get('/devices_check_name/:name', function(req, res) {
     });
 });
 
+app.get('/devices_delete/:name', function(req, res) {
+    const name = req.params.name;
+
+    const query = "DELETE FROM Devices WHERE name = ?";
+    const values = [name];
+
+    utils.query(query, values, function(error, result) {
+        if (error) {
+            console.error("Error al eliminar dispositivo:", error);
+            return res.sendStatus(409); 
+        }
+
+        res.sendStatus(200); 
+    });
+});
+
 app.get('/devices_create/:name/:description/:type/', function(req, res) {
     const { name, description, type } = req.params;
     const tipo = parseInt(type);

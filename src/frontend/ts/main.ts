@@ -140,6 +140,27 @@ class Main implements EventListenerObject{
         });
     }
 
+    public eliminarDispositivo(nombre: string) {
+     
+            const xmlReq = new XMLHttpRequest();
+    
+            xmlReq.onreadystatechange = () => {
+                if (xmlReq.readyState === 4) {
+       
+                        if (xmlReq.status == 200) {
+                            console.log(xmlReq.responseText);
+                        } else {
+                            alert(xmlReq.responseText);
+                        }
+
+                }
+            };
+    
+            xmlReq.open("GET", "http://localhost:8000/devices_delete/" + nombre, true);
+            xmlReq.send();
+        
+    }
+
     public consultarAlServidor() {
         let xmlReq = new XMLHttpRequest();
 
@@ -249,6 +270,13 @@ class Main implements EventListenerObject{
                             input_tipo.value=o.type.toString();
                             M.FormSelect.init(input_tipo);
                           
+                        });
+
+                        let btn_delete = document.getElementById("Button_delete_" + o.id);
+
+                        btn_delete.addEventListener("click", ()=>{
+                            this.eliminarDispositivo(o.name);
+                            this.consultarAlServidor();
                         });
                       }
                 } else {
