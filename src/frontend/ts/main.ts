@@ -129,11 +129,11 @@ class Main implements EventListenerObject{
             }
             this.consultarDisponibilidadNombre(input_nombre.value).then(disponible => {
                 
-                if (!disponible) {
+                if (!disponible && input_nombre.value !== input_nombre.placeholder) {
                     alert("El nombre ya está en uso.");
                     return;
                 }
-                
+
                 xmlReq.onreadystatechange = () => {
                     if (xmlReq.readyState === 4) {
                         if (xmlReq.status === 200) {
@@ -223,7 +223,7 @@ class Main implements EventListenerObject{
                     listado += `<div class="row">`
                     for (let o of devices) {
                                                 
-                        listado += `<div class="col s12 m6 l3" >`
+                        listado += `<div class="col s12 m6 l4 xl3" >`
                             listado += `<div class="card" style="border-radius: 15px; padding: 10px;background-color:#124580;">`
                                 listado += `<div class="row valign-wrapper" style="margin: 0;">`
                     
