@@ -76,10 +76,10 @@ class Main implements EventListenerObject{
                 return;
             }
         
-            if (tipo_dispositivo_crear.value !== "0" && tipo_dispositivo_crear.value !== "1") {
+            /*if (tipo_dispositivo_crear.value !== "0" && tipo_dispositivo_crear.value !== "1") {
                 alert("Tipo inválido. Debe ser 0 o 1.");
                 return;
-            }
+            }*/
 
             this.consultarDisponibilidadNombre(nombre_dispositivo_crear.value).then(disponible => {
                 if (!disponible) {
@@ -123,10 +123,10 @@ class Main implements EventListenerObject{
                 return;
             }
         
-            if (input_tipo.value !== "0" && input_tipo.value !== "1") {
+            /*if (input_tipo.value !== "0" && input_tipo.value !== "1") {
                 alert("Tipo inválido. Debe ser 0 o 1.");
                 return;
-            }
+            }*/
             this.consultarDisponibilidadNombre(input_nombre.value).then(disponible => {
                 
                 if (!disponible && input_nombre.value !== input_nombre.placeholder) {
@@ -230,10 +230,21 @@ class Main implements EventListenerObject{
                                     // Para imagen
                                     listado += `<div class="col s4">`
                                         if (o.type == 0) {
-                                            listado += `<img src="./static/images/lightbulb.png" alt="" class="circle responsive-img">`
-                                        } else {
-                                            listado += `<img src="./static/images/window.png" alt="" class="circle responsive-img">`
+                                            listado += `<i class="material-icons white-text" style="font-size: 32px;">lightbulb</i>`;
+                                        } else if (o.type == 1) {
+                                            listado += `<i class="material-icons white-text" style="font-size: 32px;">window</i>`;
+                                        } else if (o.type == 2) {
+                                            listado += `<i class="material-icons white-text" style="font-size: 32px;">tv</i>`;
+                                        } else if (o.type == 3) {
+                                            listado += `<i class="material-icons white-text" style="font-size: 32px;">music_note</i>`;
+                                        } else if (o.type == 4) {
+                                            listado += `<i class="material-icons white-text" style="font-size: 32px;">air</i>`;
+                                        } else if (o.type == 5) {
+                                            listado += `<i class="material-icons white-text" style="font-size: 32px;">ac_unit</i>`;
+                                        } else if (o.type == 6) {
+                                            listado += `<i class="material-icons white-text" style="font-size: 32px;">whatshot</i>`;
                                         }
+
                                     listado += `</div>`
                     
                                     // Para texto
@@ -245,7 +256,7 @@ class Main implements EventListenerObject{
                                 
                                 // Para controlador (switch, deslizable)
                                 listado += `<div class="center-align"  style="margin-top: 10px; min-height: 35px;">`
-                                    if (!o.type) {
+                                    if (o.type==0 || o.type==2 || o.type==3 || o.type==6) {
                                         listado += `<div class="switch">
                                                         <label>
                                                             Off
@@ -284,7 +295,7 @@ class Main implements EventListenerObject{
                     M.FormSelect.init(elems);
 
                     for (let o of devices) {
-                        if(o.type==0){
+                        if(o.type==0 || o.type==2 || o.type==3 || o.type==6)){
                             let checkbox = document.getElementById("cb_" + o.id) as HTMLInputElement;
                             if(checkbox){
                                 checkbox.checked = !!o.state;

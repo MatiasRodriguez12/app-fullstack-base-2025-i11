@@ -95,9 +95,9 @@ app.get('/devices_create/:name/:description/:type/', function(req, res) {
     const { name, description, type } = req.params;
     const tipo = parseInt(type);
 
-    if (isNaN(tipo) || (tipo !== 0 && tipo !== 1)) {
+    /*if (isNaN(tipo) || (tipo !== 0 && tipo !== 1)) {
         return res.status(400).send({ error: "Tipo inválido" });
-    }
+    }*/
 
     const query = "INSERT INTO Devices (name, description, state, type) VALUES (?, ?, 0, ?)";
     const values = [name, description, tipo];
@@ -117,9 +117,9 @@ app.get('/devices_update/:name/:new_name/:description/:type/', function(req, res
     const { name,new_name, description, type } = req.params;
     const tipo = parseInt(type);
 
-    if (isNaN(tipo) || (tipo !== 0 && tipo !== 1)) {
+    /*if (isNaN(tipo) || (tipo !== 0 && tipo !== 1)) {
         return res.status(400).send({ error: "Tipo inválido" });
-    }
+    }*/
 
     const query = "UPDATE Devices SET description = ?, type = ?, name = ?, state = 0 WHERE name = ?";
     const values = [description, tipo, new_name, name];
