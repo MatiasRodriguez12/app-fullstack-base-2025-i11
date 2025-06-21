@@ -42,7 +42,7 @@ class Main implements EventListenerObject{
                 }
             };
 
-            xmlReq.open("GET", "http://localhost:8000/devices_update/"+elementoClick.id+"/"+elementoClick.checked, true);
+            xmlReq.open("GET", "http://localhost:8000/devices_set_state/"+elementoClick.id+"/"+elementoClick.checked, true);
             xmlReq.send();
         }
         else if(elementoClick.id.startsWith("cbs_")){                
@@ -61,7 +61,7 @@ class Main implements EventListenerObject{
                 }
             };
 
-            xmlReq.open("GET", "http://localhost:8000/devices_update/"+elementoClick.id+"/"+elementoClick.value, true);
+            xmlReq.open("GET", "http://localhost:8000/devices_set_state/"+elementoClick.id+"/"+elementoClick.value, true);
             xmlReq.send();
         }
         else if(elementoClick.id=="btnCrearDispositivo" && object.type=="click"){

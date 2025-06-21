@@ -38,7 +38,7 @@ app.get('/devices/:id', function(req, res, next) {
 });
 
 
-app.get('/devices_update/:id/:state', function(req, res, next) {
+app.get('/devices_set_state/:id/:state', function(req, res, next) {
     const id = req.params.id.split("_")[1];
     const state = req.params.state;
     //utils.query("SELECT * FROM Devices where id = "+req.params.id, function(error,respuesta,campos){
