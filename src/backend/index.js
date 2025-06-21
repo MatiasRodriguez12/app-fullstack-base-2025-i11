@@ -13,7 +13,7 @@ app.use(express.json());
 app.use(express.static('/home/node/app/static/'));
 
 //=======[ Main module code ]==================================================
-
+// Solicitud que retorna todos los dispositivos almacenados en la base de datos
 app.get('/devices/', function(req, res, next) {
     utils.query("SELECT * FROM Devices",function(error,respuesta,campos){
         if(error==null){
@@ -25,19 +25,8 @@ app.get('/devices/', function(req, res, next) {
         }
     })
 });
-app.get('/devices/:id', function(req, res, next) {
-    utils.query("SELECT * FROM Devices where id = "+req.params.id, function(error,respuesta,campos){
-        if(error==null){
-            console.log(respuesta);
-            res.status(200).send(respuesta);    
-        }else{
-            console.log(error);
-            res.status(409).send({error:"Fallo la consulta"});
-        }
-    })
-});
 
-
+// Solicitud que actualiza el valor de Switch o Slider (state) de un dispositivo
 app.get('/devices_set_state/:id/:state', function(req, res, next) {
     const id = req.params.id.split("_")[1];
     const state = req.params.state;
@@ -53,6 +42,7 @@ app.get('/devices_set_state/:id/:state', function(req, res, next) {
     })
 });
 
+// Solicitud que comprueba la existencia o no de un determinado nombre
 app.get('/devices_check_name/:name', function(req, res) {
     const name = req.params.name;
 
@@ -75,6 +65,7 @@ app.get('/devices_check_name/:name', function(req, res) {
     });
 });
 
+// Solicitud que elimina un determinado dispositivo segun su nombre
 app.get('/devices_delete/:name', function(req, res) {
     const name = req.params.name;
 
@@ -91,6 +82,7 @@ app.get('/devices_delete/:name', function(req, res) {
     });
 });
 
+// Solicitud que añade un nuevo dispositivo a la base de datos
 app.get('/devices_create/:name/:description/:type/', function(req, res) {
     const { name, description, type } = req.params;
     const tipo = parseInt(type);
@@ -113,6 +105,7 @@ app.get('/devices_create/:name/:description/:type/', function(req, res) {
     });
 });
 
+// Solicitud que actualiza los campos de un determinado dispositivo
 app.get('/devices_update/:name/:new_name/:description/:type/', function(req, res) {
     const { name,new_name, description, type } = req.params;
     const tipo = parseInt(type);
@@ -136,26 +129,6 @@ app.get('/devices_update/:name/:new_name/:description/:type/', function(req, res
 
         res.status(200).send({ mensaje: "Dispositivo actualizado correctamente" });
     });
-});
-
-app.get('/algo',function(req,res,next){
-
-    console.log("llego una peticion a algo")
-    res.status(409).send({nombre:"Matias",apellido:"Ramos",dni:2131});
-});
-app.get('/algoInfo/:nombre',function(req,res,next){
-    
-    
-    res.status(200).send({saludo:"Hola "+req.params.nombre});
-});
-
-app.post('/algoInfoBody/',function(req,res,next){
-    console.log(req.body);
-    if(req.body.nombre != undefined){
-        res.status(200).send({saludo:"Hola "+req.body.nombre});
-    }else{
-        res.status(409).send({error:"Falta el nombre"});
-    }
 });
 
 app.listen(PORT, function(req, res) {

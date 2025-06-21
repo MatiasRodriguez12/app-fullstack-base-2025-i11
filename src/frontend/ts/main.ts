@@ -1,39 +1,25 @@
 
 class Main implements EventListenerObject{
-    nombre: string = "Matias";
-    per: Persona = new Persona("", 3);
-    
-    
-    public mostrarEnConsola( mensaje: string) {
-        console.log(mensaje);
-    }
+ 
     handleEvent(object: Event): void{
         console.log(object)
         let elementoClick =<HTMLInputElement> object.target;
+        
+        
+        if(elementoClick.id=="btnMostrar" && object.type=="click"){
+            // Funcionalidad del boton para mostrar los dispositivosen pantalla
+            // Llama a la funcion que consulta los elementos guardados en la base de datos
+            this.consultarAlServidor(); 
 
-        if(elementoClick.id=="btn_1"){
-            let tiluto = document.getElementById("titulo1");
-            let texto =<HTMLInputElement> document.getElementById("texto1");
-            
-            tiluto.innerHTML = " titulo nuevo";
-            let nombre = texto.value;
-            texto.hidden = true;
-            console.log(texto.setAttribute("otro","otro valor!"));
-            alert("el usuario es " + nombre);
-            let div = document.getElementById("lista");
-            div.hidden = true;
-
-            
-        } else if(elementoClick.id=="btnMostrar" && object.type=="click"){
-            this.consultarAlServidor();                                    
         } else if(elementoClick.id.startsWith("cb_")){                
-                         // <input id='cb_1' type="checkbox"> // true //cb_1
+            // Funcionalidad para los botones de tipo Switch
+            // Actualiza el valor actual del Switch en la base de datos
             console.log("pase por el check!!", elementoClick.checked, elementoClick.id)
 
             let xmlReq = new XMLHttpRequest();
 
             xmlReq.onreadystatechange = function() {
-                if (xmlReq.readyState === 4) { // DONE
+                if (xmlReq.readyState === 4) {
                     if (xmlReq.status === 200) {
                         console.log("Dispositivo actualizado:", xmlReq.responseText);
                     } else {
@@ -46,13 +32,14 @@ class Main implements EventListenerObject{
             xmlReq.send();
         }
         else if(elementoClick.id.startsWith("cbs_")){                
-  
+            // Funcionalidad para los botones de tipo Slider
+            // Actualiza el valor actual del Slider en la base de datos
             console.log("pase por el check!!", elementoClick.value, elementoClick.id)
 
             let xmlReq = new XMLHttpRequest();
 
             xmlReq.onreadystatechange = function() {
-                if (xmlReq.readyState === 4) { // DONE
+                if (xmlReq.readyState === 4) {
                     if (xmlReq.status === 200) {
                         console.log("Dispositivo actualizado:", xmlReq.responseText);
                     } else {
@@ -65,6 +52,12 @@ class Main implements EventListenerObject{
             xmlReq.send();
         }
         else if(elementoClick.id=="btnCrearDispositivo" && object.type=="click"){
+
+            // Funcionalidad para el boton Crear Dispositivos
+            // En primer lugar chequea que todos los campos del formulario no esten vacios
+            // Luego Chequea que el nombre este disponible (no exista otro dispositivo con el nombre que se quiere crear)
+            // Finalmente realiza la solicitud GET para crear el nuevo dispositivo en la base de datos y llama a consultar servidor para refrescar pantalla
+
             console.log("pase por el check crear!!", elementoClick.value, elementoClick.id)
 
             const nombre_dispositivo_crear = document.getElementById("nombre_dispositivo_crear") as HTMLInputElement;
@@ -112,6 +105,13 @@ class Main implements EventListenerObject{
             });
         }
         else if(elementoClick.id=="btnActualizarDispositivo" && object.type=="click"){
+
+            // Funcionalidad para el boton Editar Dispositivos
+            // En primer lugar chequea que todos los campos del formulario no esten vacios
+            // Luego Chequea que el nombre este disponible (no exista otro dispositivo con el nuevo nombre que se quiere setear) o bien que el nombre siga siendo el mismo que poseia el dispositivo (se quiere actualizar algun otro campo)
+            // Finalmente realiza la solicitud GET para actualizar el nuevo dispositivo en la base de datos y llama a consultar servidor para refrescar pantalla
+            
+
             const input_nombre = document.getElementById("nombre_dispositivo") as HTMLInputElement;
             const input_descripcion = document.getElementById("descripcion_dispositivo") as HTMLInputElement;
             const input_tipo = document.getElementById("tipo_dispositivo") as HTMLInputElement;
@@ -146,7 +146,7 @@ class Main implements EventListenerObject{
         
                             this.consultarAlServidor();
                         } else {
-                            console.error("Error al crear dispositivo:", xmlReq.status, xmlReq.responseText);
+                            console.error("Error al actualizar dispositivo:", xmlReq.status, xmlReq.responseText);
                         }
                     }
                 };
@@ -161,6 +161,10 @@ class Main implements EventListenerObject{
     }
     
     public consultarDisponibilidadNombre(nombre: string): Promise<boolean> {
+
+        // Funcion que consulta disponibilidad de nombres en la base de datos
+        // Realiza una solicitud GET que ejecuta una funcion que consulta si existe algun dispositivo con el nombre que se le pasa por parametro
+
         return new Promise((resolve, reject) => {
             const xmlReq = new XMLHttpRequest();
     
@@ -187,27 +191,33 @@ class Main implements EventListenerObject{
     }
 
     public eliminarDispositivo(nombre: string) {
-     
-            const xmlReq = new XMLHttpRequest();
-    
-            xmlReq.onreadystatechange = () => {
-                if (xmlReq.readyState === 4) {
-       
-                        if (xmlReq.status == 200) {
-                            console.log(xmlReq.responseText);
-                        } else {
-                            alert(xmlReq.responseText);
-                        }
 
-                }
-            };
+        // Funcion para eliminar un dispositivo
+        // Realiza una solicitud GET para eliminar el dispositivo de la base de datos
+
+        const xmlReq = new XMLHttpRequest();
     
-            xmlReq.open("GET", "http://localhost:8000/devices_delete/" + nombre, true);
-            xmlReq.send();
+        xmlReq.onreadystatechange = () => {
+            if (xmlReq.readyState === 4) {
+    
+                    if (xmlReq.status == 200) {
+                        console.log(xmlReq.responseText);
+                    } else {
+                        alert(xmlReq.responseText);
+                    }
+            }
+        };
+
+        xmlReq.open("GET", "http://localhost:8000/devices_delete/" + nombre, true);
+        xmlReq.send();
         
     }
 
     public consultarAlServidor() {
+
+        // Funcion que realiza la consulta al servidor
+        // Realiza una solicitud GET para traer todos los dispositivos almacenados en la base de datos
+        // Crea dinamicamente un CARD por cada elemento con su simbolo, Switch y botones de Editar y Eliminar correspondiente
         let xmlReq = new XMLHttpRequest();
 
         xmlReq.onreadystatechange = () => {
@@ -288,14 +298,17 @@ class Main implements EventListenerObject{
                     listado += `</div>`
                     
                     div.innerHTML = listado;
+
+                    // Se inicializan los modales y select
                     const modales = document.querySelectorAll<HTMLElement>(".modal");
                     M.Modal.init(modales);
                     
                     const elems = document.querySelectorAll("select");
                     M.FormSelect.init(elems);
 
+                    // Se da un valor inicial a los Switchs de cada elemento y se registra en Listener
                     for (let o of devices) {
-                        if(o.type==0 || o.type==2 || o.type==3 || o.type==6)){
+                        if(o.type==0 || o.type==2 || o.type==3 || o.type==6){
                             let checkbox = document.getElementById("cb_" + o.id) as HTMLInputElement;
                             if(checkbox){
                                 checkbox.checked = !!o.state;
@@ -308,10 +321,10 @@ class Main implements EventListenerObject{
                                 slider.addEventListener("input", this);
                                 slider.value=o.state.toString();
                             }                            
-                        }
-
-                        
+                        }                        
                     }
+
+                    // Se agrega los Listener de los botones de Editar y Eliminar correspondientes a cada elemento
                     for (let o of devices) {
                         const boton_editar = document.getElementById("Button_edit_" + o.id);
                         const input_nombre = document.getElementById("nombre_dispositivo") as HTMLInputElement;
@@ -319,7 +332,10 @@ class Main implements EventListenerObject{
                         const input_tipo = document.getElementById("tipo_dispositivo") as HTMLInputElement;
                         
                         boton_editar?.addEventListener("click", () => {
-    
+                            // Campos del formulario de Edicion de elemento
+                            // Los placeholder siempre contienen el nombre y descripción actual del dispositivo
+                            // Los inputs se inicializan con un string vacio
+                            // El select se inicializa con el tipo actual del dispositivo
                             input_nombre.placeholder = o.name;
                             input_nombre.value = ""; 
                             input_descripcion.placeholder = o.description;
@@ -351,42 +367,25 @@ class Main implements EventListenerObject{
 }
 
 window.addEventListener("load", () => {
-   let main: Main = new Main();
-     
+    
+    // Se crea el objeto Main principal
+    let main: Main = new Main();
+    
+    // Se inicializan los modales
     const modales = document.querySelectorAll<HTMLElement>(".modal");
     M.Modal.init(modales);
 
     const elems = document.querySelectorAll("select");
     M.FormSelect.init(elems);
 
+    // Se agregan los Listener des boton mostrar dispositivos, y los botones Crear y Eliminar dispositivo
     let btnM = document.getElementById("btnMostrar");
     let btn_create = document.getElementById("btnCrearDispositivo");
     let btn_delete = document.getElementById("btnActualizarDispositivo");
 
     btnM.addEventListener("click", main);
     btn_create.addEventListener("click", main);
-    btn_delete.addEventListener("click", main);
-
-
-     let xmlReq = new XMLHttpRequest();
-
- 
-    xmlReq.onreadystatechange = () => {
-        if (xmlReq.readyState == 4) {
-            if (xmlReq.status == 200) {
-                console.log(xmlReq.responseText);
-            } else {
-                alert(xmlReq.responseText);
-            }
-        }
-    }
-    let body = { 'nombre': "Matias!"}
-    xmlReq.open("POST", "http://localhost:8000/algoInfoBody/", true);
-
-    xmlReq.setRequestHeader("Content-Type", "application/json");
-
-    xmlReq.send(JSON.stringify(body));
-        
+    btn_delete.addEventListener("click", main);     
    
 });
 
