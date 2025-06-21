@@ -53,6 +53,28 @@ app.get('/devices_update/:id/:state', function(req, res, next) {
     })
 });
 
+app.get('/devices_check_name/:name', function(req, res) {
+    const name = req.params.name;
+
+    const query = "SELECT COUNT(*) AS count FROM Devices WHERE name = ?";
+    const values = [name];
+
+    utils.query(query, values, function(error, results, fields) {
+        if (error) {
+            console.error(error);
+            return res.status(500).send({ error: "Fallo la consulta" });
+        }
+
+        const count = results[0].count;
+
+        if (count === 0) {
+            res.status(200).json({ disponible: true });
+        } else {
+            res.status(200).json({ disponible: false });
+        }
+    });
+});
+
 app.get('/devices_create/:name/:description/:type/', function(req, res) {
     const { name, description, type } = req.params;
     const tipo = parseInt(type);

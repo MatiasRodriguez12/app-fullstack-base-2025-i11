@@ -71,25 +71,40 @@ class Main implements EventListenerObject{
             const descripcion_dispositivo_crear = document.getElementById("descripcion_dispositivo_crear");
             const tipo_dispositivo_crear = document.getElementById("tipo_dispositivo_crear");
 
+            if (!nombre_dispositivo_crear.value.trim() || !descripcion_dispositivo_crear.value.trim() || !tipo_dispositivo_crear.value) {
+                alert("Por favor, completa todos los campos.");
+                return;
+            }
+        
+            if (tipo_dispositivo_crear.value !== "0" && tipo_dispositivo_crear.value !== "1") {
+                alert("Tipo inválido. Debe ser 0 o 1.");
+                return;
+            }
 
-            let xmlReq = new XMLHttpRequest();
-
-            xmlReq.onreadystatechange = () => {
-                if (xmlReq.readyState === 4) {
-                    if (xmlReq.status === 200) {
-                        console.log("Dispositivo actualizado:", xmlReq.responseText);
-                        const modalElem = document.getElementById("modal_agregar");
-                        const modalInstance = M.Modal.getInstance(modalElem);
-                        if(modalInstance){
-                            modalInstance.close();
-                        }
-            
-                        this.consultarAlServidor(); 
-                    } else {
-                        console.error("Error al actualizar:", xmlReq.status, xmlReq.responseText);
-                    }
+            this.consultarDisponibilidadNombre(nombre_dispositivo_crear.value).then(disponible => {
+                if (!disponible) {
+                    alert("El nombre ya está en uso.");
+                    return;
                 }
-            };
+        
+                let xmlReq = new XMLHttpRequest();
+        
+                xmlReq.onreadystatechange = () => {
+                    if (xmlReq.readyState === 4) {
+                        if (xmlReq.status === 200) {
+                            console.log("Dispositivo creado:", xmlReq.responseText);
+                            const modalElem = document.getElementById("modal_agregar");
+                            const modalInstance = M.Modal.getInstance(modalElem);
+                            if (modalInstance) {
+                                modalInstance.close();
+                            }
+        
+                            this.consultarAlServidor();
+                        } else {
+                            console.error("Error al crear dispositivo:", xmlReq.status, xmlReq.responseText);
+                        }
+                    }
+                };
 
             xmlReq.open("GET", "http://localhost:8000/devices_create/"+nombre_dispositivo_crear.value+"/"+descripcion_dispositivo_crear.value+"/"+tipo_dispositivo_crear.value, true);
             xmlReq.send();
@@ -99,6 +114,32 @@ class Main implements EventListenerObject{
 
     }
     
+    public consultarDisponibilidadNombre(nombre: string): Promise<boolean> {
+        return new Promise((resolve, reject) => {
+            const xmlReq = new XMLHttpRequest();
+    
+            xmlReq.onreadystatechange = () => {
+                if (xmlReq.readyState === 4) {
+                    if (xmlReq.status === 200) {
+                        try {
+                            const respuesta = JSON.parse(xmlReq.responseText);
+                            resolve(respuesta.disponible === true);
+                        } catch (e) {
+                            console.error("Error al parsear JSON:", e);
+                            resolve(false);
+                        }
+                    } else {
+                        console.error("Fallo en la consulta:", xmlReq.status);
+                        resolve(false);
+                    }
+                }
+            };
+    
+            xmlReq.open("GET", "http://localhost:8000/devices_check_name/" + nombre, true);
+            xmlReq.send();
+        });
+    }
+
     public consultarAlServidor() {
         let xmlReq = new XMLHttpRequest();
 
