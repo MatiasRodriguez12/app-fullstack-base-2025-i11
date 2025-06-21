@@ -53,6 +53,28 @@ app.get('/devices_update/:id/:state', function(req, res, next) {
     })
 });
 
+app.get('/devices_create/:name/:description/:type/', function(req, res) {
+    const { name, description, type } = req.params;
+    const tipo = parseInt(type);
+
+    if (isNaN(tipo) || (tipo !== 0 && tipo !== 1)) {
+        return res.status(400).send({ error: "Tipo inválido" });
+    }
+
+    const query = "INSERT INTO Devices (name, description, state, type) VALUES (?, ?, 0, ?)";
+    const values = [name, description, tipo];
+
+    utils.query(query, values, function(error, resultado, campos) {
+        if (error == null) {
+            console.log(resultado);
+            res.status(200).send(resultado);
+        } else {
+            console.error(error);
+            res.status(409).send({ error: "Fallo en la creación" });
+        }
+    });
+});
+
 app.get('/algo',function(req,res,next){
 
     console.log("llego una peticion a algo")

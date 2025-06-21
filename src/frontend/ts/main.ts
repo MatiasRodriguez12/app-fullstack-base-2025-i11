@@ -64,6 +64,38 @@ class Main implements EventListenerObject{
             xmlReq.open("GET", "http://localhost:8000/devices_update/"+elementoClick.id+"/"+elementoClick.value, true);
             xmlReq.send();
         }
+        else if(elementoClick.id=="btnCrearDispositivo" && object.type=="click"){
+            console.log("pase por el check crear!!", elementoClick.value, elementoClick.id)
+
+            const nombre_dispositivo_crear = document.getElementById("nombre_dispositivo_crear");
+            const descripcion_dispositivo_crear = document.getElementById("descripcion_dispositivo_crear");
+            const tipo_dispositivo_crear = document.getElementById("tipo_dispositivo_crear");
+
+
+            let xmlReq = new XMLHttpRequest();
+
+            xmlReq.onreadystatechange = () => {
+                if (xmlReq.readyState === 4) {
+                    if (xmlReq.status === 200) {
+                        console.log("Dispositivo actualizado:", xmlReq.responseText);
+                        const modalElem = document.getElementById("modal_agregar");
+                        const modalInstance = M.Modal.getInstance(modalElem);
+                        if(modalInstance){
+                            modalInstance.close();
+                        }
+            
+                        this.consultarAlServidor(); 
+                    } else {
+                        console.error("Error al actualizar:", xmlReq.status, xmlReq.responseText);
+                    }
+                }
+            };
+
+            xmlReq.open("GET", "http://localhost:8000/devices_create/"+nombre_dispositivo_crear.value+"/"+descripcion_dispositivo_crear.value+"/"+tipo_dispositivo_crear.value, true);
+            xmlReq.send();
+
+             
+        }
 
     }
     
@@ -202,8 +234,10 @@ window.addEventListener("load", () => {
     M.FormSelect.init(elems);
 
     let btnM = document.getElementById("btnMostrar");
+    let btn_create = document.getElementById("btnCrearDispositivo");
 
     btnM.addEventListener("click", main);
+    btn_create.addEventListener("click", main);
 
 
      let xmlReq = new XMLHttpRequest();
