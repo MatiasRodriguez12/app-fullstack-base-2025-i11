@@ -5,6 +5,23 @@
 Web App Full Stack Base
 =======================
 
+Este proyecto fue desarrollado en el marco de la asignatura "Desarrollo de Aplicaciones Web", correspondiente a la Carrera de Especialización en Internet de las Cosas de la FIUBA.
+
+Como punto de partida se utilizó un proyecto base provisto por la cátedra, el cual fue progresivamente modificado y ampliado con el objetivo de cumplir con los requerimientos planteados para el desarrollo.
+
+La aplicación consiste en una interfaz web destinada al control de dispositivos domóticos dentro de un hogar. Los dispositivos están almacenados en una base de datos SQL y pueden clasificarse en siete tipos diferentes: luces, persianas, televisores, música, ventiladores, aire acondicionado y caloventores. Según el tipo de dispositivo, la interfaz de control varía, presentando controles del tipo interruptor (switch) o deslizador (slider).
+
+Para registrar un nuevo dispositivo, es necesario especificar un nombre, una descripción y el tipo al que pertenece. La aplicación cuenta con un botón que permite visualizar en pantalla todos los dispositivos actualmente registrados. Además, cada panel individual correspondiente a un dispositivo incluye dos botones: uno para editar sus datos y otro para eliminarlo permanentemente de la base de datos.
+
+En la siguiente imagén se observa el panel completo con los distintos dispositivos.
+
+![architecture](doc/tp_webapp.png)
+
+Para ejecutar este proyecto, se debe correr el comando docker-compose up, el cual levantará las imágenes necesarias para poner en funcionamiento todos los servicios definidos en el archivo docker-compose.yml.
+
+Proyecto base
+=======================
+
 *Ayudaría mucho si apoyaras este proyecto con una ⭐ en Github!*
 
 Este proyecto es una aplicación web fullstack que se ejecuta sobre el ecosistema `Docker`. Está compuesta por un compilador de `TypeScript` que te permite utilizar este superset de JavaScript para poder programar un `cliente web`. También tiene un servicio en `NodeJS` que te permite ejecutar código en backend y al mismo tiempo disponibilizar el código del cliente web para interactar con el servicio. Además tiene una `base de datos` MySQL que puede interactuar con el backend para guardar y consultar datos, y de manera adicional trae un `administrador` de base de datos para poder administrar la base en caso que lo necesites.
