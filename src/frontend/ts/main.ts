@@ -252,7 +252,7 @@ class Main implements EventListenerObject{
                                         } else if (o.type == 5) {
                                             listado += `<i class="material-icons white-text" style="font-size: 32px;">ac_unit</i>`;
                                         } else if (o.type == 6) {
-                                            listado += `<i class="material-icons white-text" style="font-size: 32px;">whatshot</i>`;
+                                            listado += `<i class="material-icons white-text" style="font-size: 32px;">power</i>`;
                                         }
 
                                     listado += `</div>`

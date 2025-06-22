@@ -9,7 +9,7 @@ Este proyecto fue desarrollado en el marco de la asignatura "Desarrollo de Aplic
 
 Como punto de partida se utilizó un proyecto base provisto por la cátedra, el cual fue progresivamente modificado y ampliado con el objetivo de cumplir con los requerimientos planteados para el desarrollo.
 
-La aplicación consiste en una interfaz web destinada al control de dispositivos domóticos dentro de un hogar. Los dispositivos están almacenados en una base de datos SQL y pueden clasificarse en siete tipos diferentes: luces, persianas, televisores, música, ventiladores, aire acondicionado y caloventores. Según el tipo de dispositivo, la interfaz de control varía, presentando controles del tipo interruptor (switch) o deslizador (slider).
+La aplicación consiste en una interfaz web destinada al control de dispositivos domóticos dentro de un hogar. Los dispositivos están almacenados en una base de datos SQL y pueden clasificarse en siete tipos diferentes: luces, persianas, televisores, música, ventiladores, aire acondicionado y tomacorrientes. Según el tipo de dispositivo, la interfaz de control varía, presentando controles del tipo interruptor (switch) o deslizador (slider).
 
 Para registrar un nuevo dispositivo, es necesario especificar un nombre, una descripción y el tipo al que pertenece. La aplicación cuenta con un botón que permite visualizar en pantalla todos los dispositivos actualmente registrados. Además, cada panel individual correspondiente a un dispositivo incluye dos botones: uno para editar sus datos y otro para eliminarlo permanentemente de la base de datos.
 
